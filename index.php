@@ -18,7 +18,10 @@ $ch = curl_init();
 // Set multiple cURL options at once using curl_setopt_array()
 curl_setopt_array($ch, [
 
-    CURLOPT_URL => "https://randomuser.me/api",      // Set the URL for the request
+    // CURLOPT_URL => "https://randomuser.me/api",      // Set the URL for the request
+
+    // Without adding the API KEY, the cURL request will return a 404 error because the request is unauthorized or invalid.
+    CURLOPT_URL => "https://api.openweathermap.org/data/2.5/weather?q=lagos&appid=YOUR_API_KEY",
     CURLOPT_RETURNTRANSFER => true                   // Return the response as a string instead of outputting it directly
 
 ]);
@@ -29,9 +32,13 @@ curl_setopt_array($ch, [
 // Execute the cURL request and store the response
 $respone = curl_exec($ch); 
 
+// Get the HTTP status code of the response from the cURL request
+$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);  
+
 // Close the cURL session to free up resources
 curl_close($ch); 
 
+echo $status_code . "\n";
 
 print_r($respone . "\n"); 
 
