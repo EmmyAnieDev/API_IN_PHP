@@ -1,39 +1,37 @@
 <?php
 
-// Check if the 'name' parameter is provided in the URL query string
-if (!empty($_GET['name'])) {
+error_reporting(E_ALL); 
+ini_set('display_errors', 1); 
 
-    // Fetch the response from the Agify API (endpoint) using the provided name
-    $response = file_get_contents("https://api.agify.io?name={$_GET['name']}");
+// Initialize a cURL session
+$ch = curl_init();
 
-    // Decode the received JSON response into an associative array
-    $data = json_decode($response, true);
 
-    // Extract the predicted age from the decoded data
-    $age = $data['age'];
-}
+#   --------------------------------------   USE EITHER THE COMMENTED OR THE UNCOMMENTED
+// // Set the URL for the cURL request
+// curl_setopt($ch, CURLOPT_URL, "https://randomuser.me/api"); 
 
-?>
+// // Return the transfer as a string instead of outputting it directly
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
 
-<!DOCTYPE html>
 
-<html>
-    <head>
-        <title>Example</title>
-    </head>
+// Set multiple cURL options at once using curl_setopt_array()
+curl_setopt_array($ch, [
 
-    <body>
+    CURLOPT_URL => "https://randomuser.me/api",      // Set the URL for the request
+    CURLOPT_RETURNTRANSFER => true                   // Return the response as a string instead of outputting it directly
 
-        <?php if (isset($age)) : ?>
-            <p>AGE: <?= htmlspecialchars($age) ?></p> 
-        <?php endif; ?>
+]);
 
-        <form> 
-            <label for="name">Name</label>
-            <input id="name" type="text" name="name"> 
+#------------------------------------  USE EITHER ABOVE
 
-            <button type="submit">Guess Age</button>
-        </form>
-        
-    </body>
-</html>
+
+// Execute the cURL request and store the response
+$respone = curl_exec($ch); 
+
+// Close the cURL session to free up resources
+curl_close($ch); 
+
+
+print_r($respone . "\n"); 
+
