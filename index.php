@@ -1,15 +1,39 @@
 <?php
 
-    // file get content function can be used to read the function of a file into a string
-    // it can also be used to retrieve the contennt of a website
-    $response = file_get_contents("https://randomuser.me/api");
+// Check if the 'name' parameter is provided in the URL query string
+if (!empty($_GET['name'])) {
 
-    // Decode the received data into a standard format. Set true to convert it into an associative array.
+    // Fetch the response from the Agify API (endpoint) using the provided name
+    $response = file_get_contents("https://api.agify.io?name={$_GET['name']}");
+
+    // Decode the received JSON response into an associative array
     $data = json_decode($response, true);
 
-    // var_dump($data); "\n";
-
-    // print only the first name of the returned user using the array key
-    echo $data['results'][0]['name']['first'], "\n";
+    // Extract the predicted age from the decoded data
+    $age = $data['age'];
+}
 
 ?>
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Example</title>
+    </head>
+
+    <body>
+
+        <?php if (isset($age)) : ?>
+            <p>AGE: <?= htmlspecialchars($age) ?></p> 
+        <?php endif; ?>
+
+        <form> 
+            <label for="name">Name</label>
+            <input id="name" type="text" name="name"> 
+
+            <button type="submit">Guess Age</button>
+        </form>
+        
+    </body>
+</html>
