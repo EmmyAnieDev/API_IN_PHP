@@ -6,37 +6,32 @@ ini_set('display_errors', 1);
 // Initialize a cURL session
 $ch = curl_init();
 
-
-# Headers represent metadata about the request, such as authentication credentials, 
-# information about the client, or the type of content being sent or requested.
 $headers = [
-    "Authorization: token YOUR_ACCESS_KEY",  // Replace with your actual GitHub token
     "User-Agent: EmmyAnieDev"
 ];
 
-$payload = json_encode([
-    "name" => "Created from API",
-    "description" => "an example of API-created repo"
-]);
-
-
 curl_setopt_array($ch, [
 
-    CURLOPT_URL => "https://api.github.com/user/repos", 
+    CURLOPT_URL => "https://api.github.com/gists/654ef2658142cc48859dad324e827f9e", 
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_HTTPHEADER => $headers,
-    CURLOPT_CUSTOMREQUEST => "POST",
-    CURLOPT_POSTFIELDS => $payload
 
 ]);
 
-$respone = curl_exec($ch); 
-
-$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$respone = curl_exec($ch);
 
 curl_close($ch); 
 
-echo $status_code . "\n";
+$data = json_decode($respone, true);
 
-print_r($respone . "\n"); 
+/*
+foreach ($data as $gist) {
+
+    echo $gist['id'], " - ", $gist['description'], "\n";
+
+}
+*/
+
+print_r($data);
+
 
