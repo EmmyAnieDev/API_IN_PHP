@@ -7,35 +7,28 @@ ini_set('display_errors', 1);
 $ch = curl_init();
 
 
-#   --------------------------------------   USE EITHER THE COMMENTED OR THE UNCOMMENTED
-// // Set the URL for the cURL request
-// curl_setopt($ch, CURLOPT_URL, "https://randomuser.me/api"); 
+# Headers represent metadata about the request, such as authentication credentials, 
+# information about the client, or the type of content being sent or requested.
 
-// // Return the transfer as a string instead of outputting it directly
-// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+// You can add as many headers as needed, depending on the API's requirements.
+$headers = [
+    "Authorization: Client-ID LjUMV7XWmVafpm_qw1MH-KVeuwkXyzLYY-28ZUVhJgQ"
+];
 
 
-// Set multiple cURL options at once using curl_setopt_array()
 curl_setopt_array($ch, [
 
-    // CURLOPT_URL => "https://randomuser.me/api",      // Set the URL for the request
-
-    // Without adding the API KEY, the cURL request will return a 404 error because the request is unauthorized or invalid.
-    CURLOPT_URL => "https://api.openweathermap.org/data/2.5/weather?q=lagos&appid=YOUR_API_KEY",
-    CURLOPT_RETURNTRANSFER => true                   // Return the response as a string instead of outputting it directly
+    // CURLOPT_URL => "https://api.unsplash.com/photos/random?client_id=LjUMV7XWmVafpm_qw1MH-KVeuwkXyzLYY-28ZUVhJgQ",
+    CURLOPT_URL => "https://api.unsplash.com/photos/random",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER => $headers
 
 ]);
 
-#------------------------------------  USE EITHER ABOVE
-
-
-// Execute the cURL request and store the response
 $respone = curl_exec($ch); 
 
-// Get the HTTP status code of the response from the cURL request
 $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);  
 
-// Close the cURL session to free up resources
 curl_close($ch); 
 
 echo $status_code . "\n";
