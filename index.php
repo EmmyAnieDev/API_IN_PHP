@@ -14,14 +14,19 @@ $headers = [
     "User-Agent: EmmyAnieDev"
 ];
 
+$payload = json_encode([
+    "name" => "Created from API",
+    "description" => "an example of API-created repo"
+]);
+
 
 curl_setopt_array($ch, [
 
-    CURLOPT_URL => "https://api.github.com/user/starred/EmmyAnieDev/PHP_BEGINNER", 
+    CURLOPT_URL => "https://api.github.com/user/repos", 
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_HTTPHEADER => $headers,
-    CURLOPT_CUSTOMREQUEST => "PUT" 
-
+    CURLOPT_CUSTOMREQUEST => "POST",
+    CURLOPT_POSTFIELDS => $payload
 
 ]);
 
