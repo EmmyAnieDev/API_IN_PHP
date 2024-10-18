@@ -10,16 +10,17 @@ $ch = curl_init();
 # Headers represent metadata about the request, such as authentication credentials, 
 # information about the client, or the type of content being sent or requested.
 $headers = [
-    "Authorization: token YOUR_ACCESS_KEY",
+    "Authorization: token YOUR_ACCESS_KEY",  // Replace with your actual GitHub token
     "User-Agent: EmmyAnieDev"
 ];
 
 
 curl_setopt_array($ch, [
 
-    CURLOPT_URL => "https://api.github.com/user/starred/httpie/httpie",
+    CURLOPT_URL => "https://api.github.com/user/starred/EmmyAnieDev/PHP_BEGINNER", 
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_HTTPHEADER => $headers,
+    CURLOPT_CUSTOMREQUEST => "PUT" 
 
 
 ]);
