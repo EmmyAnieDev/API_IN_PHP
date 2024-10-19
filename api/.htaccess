@@ -1,0 +1,19 @@
+# Enable the rewrite engine
+
+RewriteEngine ON
+
+# Check if the request is not for a real file
+
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Check if the request is not for a real directory
+
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Check if the request is not for a symbolic link
+
+RewriteCond %{REQUEST_FILENAME} !-l
+
+# If none of the above conditions are met, rewrite the URL to index.php
+
+RewriteRule . index.php [L]
