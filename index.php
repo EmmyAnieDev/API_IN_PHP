@@ -1,39 +1,47 @@
 <?php
 
+$api_key = "YOUR_ACCESS_KEY";
 
-/* 
-Line 1: This includes the Composer autoload file, which automatically loads the GuzzleHttp classes 
-and other dependencies.
-*/
-require __DIR__ . "/vendor/autoload.php"; 
-
-
-// Line 2: Creates a new Guzzle HTTP client object that will be used to make the HTTP request.
-$client = new GuzzleHttp\Client;
+# Create a new customer.
+$data = [
+    "name" => "Ana",
+    "email" => 'ana@example.com'
+];
 
 
 /*
- Line 3: Sends a GET request to GitHub's API to retrieve the user's repositories. 
- The "request" method sends the request and stores the response in the $response variable.
- */
-$response = $client->request("GET", "https://api.github.com/user/repos", [
 
-    "headers" => [
-        // Line 5: Authorization header with a GitHub personal access token to authenticate the request.
-        "Authorization" => "token YOUR_TOKEN", 
-        // Line 6: A "User-Agent" header is required by GitHub API to identify the client making the request.
-        "User-Agent" => "EmmyAnieDev"
-    ]
+# Using cURL HTTP to access the API directly.
 
+$ch = curl_init();
+
+curl_setopt_array($ch, [
+    CURLOPT_URL => 'https://api.stripe.com/v1/customers',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_USERPWD => $api_key,
+    CURLOPT_POSTFIELDS => http_build_query($data) // CURLOPT_POSTFIELDS automatically set the REQUEST METHOD to POST
 ]);
 
-// Line 10: Outputs the HTTP status code from the response (e.g., 200 for success).
-echo $response->getStatusCode(), "\n";
+$response = curl_exec($ch);
+
+curl_close($ch);
+
+echo $response;
+
+*/
 
 
-//Line 12: Outputs the 'content-type' of the response header (e.g., application/json), 
-//which indicates the format of the response.
-echo $response->getHeader("content-type")[0], "\n";
+# Using the SDK: first install ==> composer require stripe/stripe-php
 
-// Line 14: Outputs the first 200 characters of the response body to preview the data retrieved from the API.
-echo substr($response->getBody(), 0, 200), "...\n";
+
+// this autoload the classes in the SDK directly
+require __DIR__ . "/vendor/autoload.php";  
+
+// create a StripeCliet object passing in the API as the argument.
+$stripe = new \Stripe\StripeClient($api_key); 
+
+// create a new customer using the "customer" property of our object
+// then call the create() passing in an array of data.
+$customer = $stripe->customers->create($data);  
+
+echo $customer;
