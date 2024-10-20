@@ -22,12 +22,6 @@ $resource = $parts[3];
 # Assumes the 5th part of the URI is the ID (index 4), and defaults to null if it's not set
 $id = $parts[4] ?? null;
 
-# Outputs the resource and ID, separated by a comma
-echo $resource, ", ", $id;
-
-# Outputs the request method (e.g., GET, POST, PUT, DELETE)
-echo $_SERVER['REQUEST_METHOD'];
-
 
 /* since we're developing just a tasks (to do) api. only two url are needed "/tasks" and "/task/$id"
 any other url should be invalid
@@ -42,5 +36,18 @@ if ($resource != 'tasks'){
     exit;
 
 }
+
+// A safer way to include files since relative paths might not always work in all php configurations
+require dirname(__DIR__) . "/src/TaskController.php";    // This makes it an absolute path
+
+
+// Create a new instance of the TaskController class
+$controller = new TaskController;
+
+// Call the processRequest method, passing the current request method and task ID
+$controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
+
+
+
 
 
