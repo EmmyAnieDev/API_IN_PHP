@@ -1,17 +1,13 @@
 <?php
 
-declare(strict_types = 1);
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-
-/*
- writing all URL to go thriugh this one script "index.php". 
-This is know as a front conmtroller: simple means all request are sent through this one script and the script decides what to do.
-*/ 
+// Enforces strict type checking in the script, ensuring that values passed to functions must match their expected types exactly.
+declare(strict_types = 1); 
 
 // to generate autoload files run: composer dump-autoload
 require dirname(__DIR__) . "/vendor/autoload.php";
+
+// Set a custom exception handler to manage uncaught exceptions using the handleExecption method of the ErrorHandler class
+set_exception_handler("ErrorHandler::handleExecption");
 
 
 # Outputs the complete URI of the current request
@@ -43,6 +39,9 @@ if ($resource != 'tasks'){
     exit;
 
 }
+
+// Set the content type of the response to JSON and specify the character encoding as UTF-8
+header('Content-type: application/json; charset=UTF-8');
 
 // Create a new instance of the TaskController class
 $controller = new TaskController;
