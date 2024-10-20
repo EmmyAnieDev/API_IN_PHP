@@ -16,10 +16,11 @@ class TaskController {
        
             if ($request_method === 'GET') {
                 echo 'gotten all tasks';
-
       
             } elseif ($request_method === 'POST') {
                 echo "added to tasks";
+            }else{
+               $this->respondMethodNotAllowed('GET, POST');
             }
 
         } else {
@@ -37,8 +38,19 @@ class TaskController {
                 case "DELETE":
                     echo "deleted a task";
                     break;
+
+                default:
+                    $this->respondMethodNotAllowed('GET, PATCH, DELETE');
+                    break;
             }
         }
+    }
+
+    private function respondMethodNotAllowed(string $allowed_methods) : void {
+
+        http_response_code(405);
+        header("Allow: $allowed_methods");
+
     }
 }
 
