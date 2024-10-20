@@ -1,10 +1,16 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 
 /*
  writing all URL to go thriugh this one script "index.php". 
 This is know as a front conmtroller: simple means all request are sent through this one script and the script decides what to do.
 */ 
+
+// to generate autoload files run: composer dump-autoload
+require dirname(__DIR__) . "/vendor/autoload.php";
 
 
 # Outputs the complete URI of the current request
@@ -36,10 +42,6 @@ if ($resource != 'tasks'){
     exit;
 
 }
-
-// A safer way to include files since relative paths might not always work in all php configurations
-require dirname(__DIR__) . "/src/TaskController.php";    // This makes it an absolute path
-
 
 // Create a new instance of the TaskController class
 $controller = new TaskController;
