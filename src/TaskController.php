@@ -14,7 +14,9 @@ class TaskController {
      * @param string $request_method - The HTTP method used in the request (GET, POST, PATCH, DELETE)
      * @param mixed $id - The ID of the task (null if the request is for all tasks)
      */
-    public function processRequest($request_method, $id) {
+
+    // for now it's void as we're not returning anything. setting the id as nullable
+    public function processRequest(string $request_method, ?string $id) : void {
 
         // If no ID is provided, handle collection-related requests
         if ($id === null) {
