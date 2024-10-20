@@ -29,3 +29,18 @@ echo $resource, ", ", $id;
 echo $_SERVER['REQUEST_METHOD'];
 
 
+/* since we're developing just a tasks (to do) api. only two url are needed "/tasks" and "/task/$id"
+any other url should be invalid
+*/
+
+// check if the $resource is not equal to 'tasks'
+if ($resource != 'tasks'){
+
+    //header($_SERVER['SERVER_PROTOCOL'] . "404 Not Found");
+
+    http_response_code(404);
+    exit;
+
+}
+
+
