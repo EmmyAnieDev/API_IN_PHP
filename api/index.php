@@ -6,6 +6,10 @@ require dirname(__DIR__) . "/vendor/autoload.php";
 
 set_exception_handler("ErrorHandler::handleExecption");
 
+// Create an immutable instance of Dotenv
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__)); 
+$dotenv->load();
+
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 $parts = explode("/", $path);
@@ -25,7 +29,7 @@ if ($resource != 'tasks'){
 header('Content-type: application/json; charset=UTF-8');
 
 // create the database object
-$database = new Database('localhost', 'api_db', 'api_db_user', 'test1234');
+$database = new Database($_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
 
 $database->getConnection();
 
