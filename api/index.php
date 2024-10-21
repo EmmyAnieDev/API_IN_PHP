@@ -49,7 +49,3 @@ $controller = new TaskController;
 // Call the processRequest method, passing the current request method and task ID
 $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
 
-
-
-
-
