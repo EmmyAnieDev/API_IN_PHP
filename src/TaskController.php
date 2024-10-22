@@ -7,6 +7,11 @@
  */
 class TaskController {
 
+    // Initialize the TaskGateway object
+    public function __construct(private TaskGateway $taskGateway){
+        
+    }
+
     // for now it's void as we're not returning anything. setting the id as nullable
     public function processRequest(string $request_method, ?string $id) : void {
 

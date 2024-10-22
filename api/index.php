@@ -31,9 +31,11 @@ header('Content-type: application/json; charset=UTF-8');
 // create the database object
 $database = new Database($_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
 
-$database->getConnection();
+// Passing the $database object to the TaskGateway constructor
+$taskGateway = new TaskGateway($database);
 
-$controller = new TaskController;
+// Passing the $taskGateway object to the TaskController constructor
+$controller = new TaskController($taskGateway);
 
 $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
 
