@@ -20,7 +20,8 @@ class TaskController {
 
        
             if ($request_method === 'GET') {
-                echo 'gotten all tasks';
+
+                echo json_encode($this->taskGateway->getAll());
       
             } elseif ($request_method === 'POST') {
                 echo "added to tasks";
