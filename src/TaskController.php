@@ -24,7 +24,11 @@ class TaskController {
                 echo json_encode($this->taskGateway->getAll());
       
             } elseif ($request_method === 'POST') {
-                echo "added to tasks";
+
+                $data = (array) json_decode(file_get_contents("php://input"), true);
+
+                var_dump($data);
+
             }else{
                $this->respondMethodNotAllowed('GET, POST');
             }
