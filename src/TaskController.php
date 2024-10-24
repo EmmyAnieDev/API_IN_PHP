@@ -30,11 +30,22 @@ class TaskController {
             }
 
         } else {
+
+            // store what is returned (array or false) in the $task variable
+            $task = $this->taskGateway->getById($id);
+
+            if ($task === false) {
+
+                $this->respondNotFound($id);
+                return;
+
+            }
          
             switch ($request_method) {
 
                 case "GET":
-                    echo "got a task";
+
+                    echo json_encode($task);
                     break;
 
                 case "PATCH":
@@ -56,6 +67,13 @@ class TaskController {
 
         http_response_code(405);
         header("Allow: $allowed_methods");
+
+    }
+
+    private function respondNotFound(string $id) : void {
+
+        http_response_code(404);
+        echo json_encode(["message" => "Task with ID $id not found!"]);
 
     }
 }
