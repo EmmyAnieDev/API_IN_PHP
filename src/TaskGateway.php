@@ -140,3 +140,5 @@ class TaskGateway {
         return $stmt->rowCount();
     }
 }
+
+?>
