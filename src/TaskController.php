@@ -75,6 +75,8 @@ class TaskController {
                         return;
     
                     }
+
+                    $this->taskGateway->UpdateTask($id, $data);
                     break;
 
                 case "DELETE":
