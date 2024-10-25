@@ -72,7 +72,7 @@ class TaskGateway {
 
     }
 
-    public function UpdateTask(string $id, array $data) {
+    public function UpdateTask(string $id, array $data) : int {
 
         $fields = [];
 
@@ -90,12 +90,40 @@ class TaskGateway {
 
         if ( array_key_exists('is_completed', $data)) {
 
-            $fields['is_completed'] = [$data['is_completed'], PDO::PARAM_STR];
+            $fields['is_completed'] = [$data['is_completed'], PDO::PARAM_BOOL];
 
         }
 
-        print_r($fields);
-        exit;
+        if ( empty($fields)) {
+
+            return 0;
+
+        }else{
+
+            // Maps field names to SQL placeholders for prepared statements (e.g., "name = :name")
+            $sets = array_map(function($value) {
+    
+                return "$value = :$value";
+    
+            }, array_keys($fields));
+    
+           $sql = "UPDATE task" . " SET " . implode(", ", $sets) . " WHERE id = :id";
+    
+           $stmt = $this->conn->prepare($sql);
+
+           $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+
+           // Binds each field to its corresponding value and data type in the prepared statement
+           foreach ($fields as $key => $values) {
+
+                $stmt->bindValue(":$key", $values[0], $values[1]);
+
+           }
+
+           $stmt->execute();
+
+           return $stmt->rowCount();
+        }
 
     }
 }
