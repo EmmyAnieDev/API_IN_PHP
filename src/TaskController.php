@@ -64,7 +64,17 @@ class TaskController {
                     break;
 
                 case "PATCH":
-                    echo "updated a task";
+                    
+                    $data = (array) json_decode(file_get_contents("php://input"), true);
+
+                    $errors = $this->getValidationErrors($data, false);
+    
+                    if ( !empty($errors)) {
+    
+                        $this->respondUnprocessedEntity($errors);
+                        return;
+    
+                    }
                     break;
 
                 case "DELETE":
@@ -106,14 +116,15 @@ class TaskController {
 
     }
 
-    public function getValidationErrors (array $data) : array {
+    // The $is_new parameter defaults to true, differentiating validation rules for POST (new) and PATCH (update) requests
+    public function getValidationErrors(array $data, bool $is_new = true): array {
 
         $errors = [];
 
-        if (empty($data['name'])) {
+        if ($is_new && empty($data['name'])) {
 
             $errors[] = 'name is required';
-
+            
         }
 
         if (!empty($data['priority'])) {
