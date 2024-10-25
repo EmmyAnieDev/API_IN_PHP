@@ -72,7 +72,7 @@ class TaskGateway {
 
     }
 
-    public function UpdateTask(string $id, array $data) : int {
+    public function updateTask(string $id, array $data) : int {
 
         $fields = [];
 
@@ -125,5 +125,18 @@ class TaskGateway {
            return $stmt->rowCount();
         }
 
+    }
+
+    public function deleteTask(string $id): int {
+
+        $sql = "DELETE FROM task WHERE id = :id";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
     }
 }

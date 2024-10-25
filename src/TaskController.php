@@ -76,12 +76,14 @@ class TaskController {
     
                     }
 
-                    $rows = $this->taskGateway->UpdateTask($id, $data);
+                    $rows = $this->taskGateway->updateTask($id, $data);
                     echo json_encode(["message" => "Task Updated", "rows" => $rows]);
                     break;
 
                 case "DELETE":
-                    echo "deleted a task";
+
+                    $rows = $this->taskGateway->deleteTask($id,);
+                    echo json_encode(["message" => "Task Deleted", "rows" => $rows]);
                     break;
 
                 default:
