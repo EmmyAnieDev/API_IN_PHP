@@ -29,6 +29,7 @@ if ($resource != 'tasks'){
 
 if (empty($_SERVER["HTTP_X_API_KEY"])) {
 
+    http_response_code(400);
     echo json_encode(["message" => "missing API key"]);
     exit;
 
