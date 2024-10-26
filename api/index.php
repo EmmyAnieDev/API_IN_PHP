@@ -27,10 +27,13 @@ if ($resource != 'tasks'){
 
 }
 
-# Retrieve the API key from the query string, passing the $api_key as part of the url
-$api_key = $_GET["api-key"];  // 'http://localhost/php_api/api/tasks?api-key=sjdkcoimerjf'
+if (empty($_SERVER["HTTP_X_API_KEY"])) {
 
-// Retrieve the API key from the HTTP header "X-API-Key" instead of passing it as part of the URL
+    echo json_encode(["message" => "missing API key"]);
+    exit;
+
+}
+
 $api_key = $_SERVER["HTTP_X_API_KEY"];    //  http http://localhost/php_api/api/tasks X-API-Key:haisdjocjkalsc
 
 echo $api_key;
