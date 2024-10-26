@@ -37,13 +37,16 @@ if (empty($_SERVER["HTTP_X_API_KEY"])) {
 
 $api_key = $_SERVER["HTTP_X_API_KEY"];    //  http http://localhost/php_api/api/tasks X-API-Key:haisdjocjkalsc
 
+// create the database object
+$database = new Database($_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
+
+// Passing the $database object to the UserGateway constructor
+$taskGateway = new UserGateway($database);
+
 echo $api_key;
 exit;
 
 header('Content-type: application/json; charset=UTF-8');
-
-// create the database object
-$database = new Database($_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
 
 // Passing the $database object to the TaskGateway constructor
 $taskGateway = new TaskGateway($database);
