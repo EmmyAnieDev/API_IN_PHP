@@ -4,11 +4,12 @@
  * The TaskController class handles task-related HTTP requests.
  * It decides what action to take based on the HTTP request method
  * and whether an 'id' is provided.
+ * Associates tasks with a specific user based on their user ID.
  */
 class TaskController {
 
     // Initialize the TaskGateway object
-    public function __construct(private TaskGateway $taskGateway){
+    public function __construct(private TaskGateway $taskGateway, private int $user_id){
         
     }
 
@@ -21,7 +22,7 @@ class TaskController {
        
             if ($request_method === 'GET') {
 
-                echo json_encode($this->taskGateway->getAll());
+                echo json_encode($this->taskGateway->getAllTaskForUser($this->user_id));
       
             } elseif ($request_method === 'POST') {
 

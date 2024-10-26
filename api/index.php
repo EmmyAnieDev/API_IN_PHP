@@ -30,9 +30,11 @@ if ( ! $auth->authenticateApiKey()){
     exit;
 }
 
+$user_id = $auth->getUserId();
+
 $taskGateway = new TaskGateway($database);
 
-$controller = new TaskController($taskGateway);
+$controller = new TaskController($taskGateway, $user_id);
 
 $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
 

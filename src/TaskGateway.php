@@ -12,11 +12,15 @@ class TaskGateway {
 
     }
 
-    public function getAll() : array {
+    public function getAllTaskForUser(int $user_id) : array {
 
-        $sql = 'SELECT * FROM task ORDER BY name' ;
+        $sql = 'SELECT * FROM task WHERE user_id = :user_id ORDER BY name' ;
 
-        $stmt = $this->conn->query($sql);
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":user_id", $user_id, PDO::PARAM_INT);
+
+        $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
