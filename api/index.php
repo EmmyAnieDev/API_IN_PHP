@@ -41,10 +41,15 @@ $api_key = $_SERVER["HTTP_X_API_KEY"];    //  http http://localhost/php_api/api/
 $database = new Database($_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
 
 // Passing the $database object to the UserGateway constructor
-$taskGateway = new UserGateway($database);
+$userGateway = new UserGateway($database);
 
-echo $api_key;
-exit;
+if ($userGateway->getUserByApiKey($api_key) === false) {
+
+    http_response_code(401);
+    echo json_encode(["message" => "invalid API key"]);
+    exit;
+
+}
 
 header('Content-type: application/json; charset=UTF-8');
 
