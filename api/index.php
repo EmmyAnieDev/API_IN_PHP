@@ -46,7 +46,7 @@ $userGateway = new UserGateway($database);
 if ($userGateway->getUserByApiKey($api_key) === false) {
 
     http_response_code(401);
-    echo json_encode(["message" => "invalid API key"]);
+    echo json_encode(["message" => "invalid API key!"]);
     exit;
 
 }
