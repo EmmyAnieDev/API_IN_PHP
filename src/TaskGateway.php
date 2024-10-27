@@ -1,6 +1,6 @@
 <?php
 
-class TaskGateway {
+class  TaskGateway {
 
     // PDO object to manage database connection
     private PDO $conn;
@@ -27,13 +27,14 @@ class TaskGateway {
     }
 
     // return an array of data retrieved if successful else false
-    public function getById(string $id) : array | false {
+    public function getTaskByIdForUser(string $id, int $user_id) : array | false {
 
-        $sql = 'SELECT * FROM task WHERE id = :id' ;
+        $sql = 'SELECT * FROM task WHERE id = :id AND user_id = :user_id' ;
 
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
 
         $stmt->execute();
 
@@ -51,8 +52,9 @@ class TaskGateway {
     }
 
     // taking an array of data as params and returning last id as string
-    public function createTask (array $data) : string {
-        $sql = "INSERT INTO task (name, priority, is_completed) VALUES (:name, :priority, :is_completed)";
+    public function createTaskForUser (array $data, int $user_id) : string {
+        $sql = "INSERT INTO task (name, priority, is_completed, user_id) 
+            VALUES (:name, :priority, :is_completed, :user_id)";
 
         $stmt = $this->conn->prepare($sql);
 
@@ -70,13 +72,15 @@ class TaskGateway {
 
         $stmt->bindValue(':is_completed', $data['is_completed'] ?? false, PDO::PARAM_BOOL);
 
+        $stmt->bindValue(":user_id", $user_id, PDO::PARAM_INT);
+
         $stmt->execute();
 
         return $this->conn->lastInsertId();
 
     }
 
-    public function updateTask(string $id, array $data) : int {
+    public function updateTaskForUser(int $user_id, string $id, array $data) : int {
 
         $fields = [];
 
@@ -111,11 +115,13 @@ class TaskGateway {
     
             }, array_keys($fields));
     
-           $sql = "UPDATE task" . " SET " . implode(", ", $sets) . " WHERE id = :id";
+           $sql = "UPDATE task" . " SET " . implode(", ", $sets) . " WHERE id = :id" . " AND user_id = :user_id";
     
            $stmt = $this->conn->prepare($sql);
 
            $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+
+           $stmt->bindValue(":user_id", $user_id, PDO::PARAM_INT);
 
            // Binds each field to its corresponding value and data type in the prepared statement
            foreach ($fields as $key => $values) {
@@ -131,13 +137,15 @@ class TaskGateway {
 
     }
 
-    public function deleteTask(string $id): int {
+    public function deleteTaskForUser(int $user_id, string $id): int {
 
-        $sql = "DELETE FROM task WHERE id = :id";
+        $sql = "DELETE FROM task WHERE id = :id AND user_id = :user_id";
 
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
 
         $stmt->execute();
 
