@@ -16,5 +16,8 @@ RewriteCond %{REQUEST_FILENAME} !-l
 
 # If none of the above conditions are met, rewrite the URL to index.php
 
-RewriteRule . index.php [L]
+RewriteCond %{REQUEST_URI} ^/php_api/api/login
 RewriteRule . login.php [L]
+
+RewriteCond %{REQUEST_URI} ^/php_api/api/tasks
+RewriteRule . index.php [L]

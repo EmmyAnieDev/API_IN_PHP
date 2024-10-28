@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $stmt = $conn->prepare($sql);
 
-    $password_harsh = password_hash($_POST['password_hash'], PASSWORD_DEFAULT);
+    $password_harsh = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $api_key = bin2hex(random_bytes(16));
 
     $stmt->bindValue(':name', $_POST['name'], PDO::PARAM_STR);
