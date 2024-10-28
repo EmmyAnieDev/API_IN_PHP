@@ -21,3 +21,7 @@ RewriteRule . login.php [L]
 
 RewriteCond %{REQUEST_URI} ^/php_api/api/tasks
 RewriteRule . index.php [L]
+
+# Apache configuration command
+# Configuring Apache to Ensure that the Authorization header is available in PHP as $_SERVER['HTTP_AUTHORIZATION']
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1

@@ -26,6 +26,13 @@ $userGateway = new UserGateway($database);
 
 $auth = new Auth($userGateway);
 
+var_dump($_SERVER['HTTP_AUTHORIZATION']); // This header is not available in the Apache web server's $_SERVER array.
+
+// $headers = apache_request_headers();
+// echo $headers['Authorization'];
+
+exit;
+
 if ( ! $auth->authenticateApiKey()){
     exit;
 }
