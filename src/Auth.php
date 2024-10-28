@@ -84,7 +84,6 @@ class Auth {
         return true;
     }
 
-
 }
 
 ?>
