@@ -55,4 +55,22 @@ if ( ! password_verify($data["password"], $user["password_hash"])) {
     exit;
 }
 
-echo json_encode(['successful authentication']);
+// Create a payload array containing the user's ID and name for the token
+$payload = [
+    "id" => $user['id'],
+    "name" => $user['name']
+];
+
+// Encode the payload as a JSON string, then Base64 encode it to form an access token
+$access_token = base64_encode(json_encode($payload));
+
+echo json_encode(["access token" => $access_token]);
+
+
+// To decode the access token and retrieve the original "id" and "name"
+/**
+ * victormarius@Spirits-Pro ~ % php -a
+ * php > interactive mode enabled
+ * php > echo base64_decode("eyJpZCI6MTIsIm5hbWUiOiJGYWl0aCJ9");
+ */
+
