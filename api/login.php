@@ -57,20 +57,15 @@ if ( ! password_verify($data["password"], $user["password_hash"])) {
 
 // Create a payload array containing the user's ID and name for the token
 $payload = [
-    "id" => $user['id'],
+    "sub" => $user['id'],
     "name" => $user['name']
 ];
 
-// Encode the payload as a JSON string, then Base64 encode it to form an access token
-$access_token = base64_encode(json_encode($payload));
+// creating an instance of the JWTCodec class
+$codec = new JWTCodec;
+
+$access_token = $codec->encode($payload);
 
 echo json_encode(["access token" => $access_token]);
 
-
-// To decode the access token and retrieve the original "id" and "name"
-/**
- * victormarius@Spirits-Pro ~ % php -a
- * php > interactive mode enabled
- * php > echo base64_decode("eyJpZCI6MTIsIm5hbWUiOiJGYWl0aCJ9");
- */
 
