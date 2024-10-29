@@ -62,7 +62,7 @@ $payload = [
 ];
 
 // creating an instance of the JWTCodec class
-$codec = new JWTCodec;
+$codec = new JWTCodec($_ENV['SECRET_KEY']);
 
 $access_token = $codec->encode($payload);
 

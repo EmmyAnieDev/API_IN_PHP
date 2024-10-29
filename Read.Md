@@ -12,3 +12,5 @@ Typically, a JWT contains three parts separated by dots (.):
 1: Header - Specifies the type of token (JWT) and the hashing algorithm. HS256
 2: Payload - Contains claims (data) about the user or session.
 3: Signature - Verifies the token's authenticity and prevents tampering. Formed by creating the hash of other 2 values above
+
+- ADDED SECRET KEY TO THE .ENV FILE

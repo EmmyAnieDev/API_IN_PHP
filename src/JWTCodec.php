@@ -4,6 +4,11 @@ use Dotenv\Exception\InvalidEncodingException;
 
 class JWTCodec {
 
+    public function __construct(private string $secret_key)
+    {
+        
+    }
+
     // Encodes the payload into a JWT string with a header, payload, and signature
     public function encode(array $payload) : string {
 
@@ -13,7 +18,7 @@ class JWTCodec {
         $payload = json_encode($payload);
         $payload = $this->base64urlEncode($payload);
 
-        $signature = hash_hmac("sha256", $header . "." . $payload, "lz7CM2jVTIDkSUNIdwWSfdDs9xJ9gqQhyHaPtH6xoe4=", true);
+        $signature = hash_hmac("sha256", $header . "." . $payload, $this->secret_key, true);
         $signature = $this->base64urlEncode($signature);
 
         // returing the JWT
@@ -31,7 +36,7 @@ class JWTCodec {
 
         }
 
-        $signature = hash_hmac("sha256", $matches['header'] . "." . $matches['payload'], "lz7CM2jVTIDkSUNIdwWSfdDs9xJ9gqQhyHaPtH6xoe4=", true);
+        $signature = hash_hmac("sha256", $matches['header'] . "." . $matches['payload'], $this->secret_key, true);
         $signature_from_token = $this->base64urlDecode($matches['signature']);
         
         if ( !hash_equals($signature, $signature_from_token)) {
