@@ -14,3 +14,7 @@ Typically, a JWT contains three parts separated by dots (.):
 3: Signature - Verifies the token's authenticity and prevents tampering. Formed by creating the hash of other 2 values above
 
 - ADDED SECRET KEY TO THE .ENV FILE
+
+- Now the task API requires Authentication, but when we do authenticate it, we don't need to make request to the database.
+- The authentication takes place just once (upon login),
+- and the access token obtained can be used to authenticate request to those pages that requires authentication
