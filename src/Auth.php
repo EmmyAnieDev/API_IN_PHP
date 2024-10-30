@@ -58,7 +58,14 @@ class Auth {
 
             $payload = $this->codec->decode($matches[1]);
 
-        }catch (Exception $e) {
+        }catch (InvalidSignatureException) {
+
+            http_response_code(401);
+            echo json_encode(["message" => "invalid signature!"]);
+            return false;
+
+        }
+        catch (Exception $e) {
 
             http_response_code(400);
             echo json_encode(["message" => $e->getMessage()]);
