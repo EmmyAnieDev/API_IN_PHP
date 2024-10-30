@@ -22,9 +22,11 @@ if ($resource != 'tasks'){
 
 $database = new Database($_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
 
+$codec = new JWTCodec($_ENV['SECRET_KEY']);
+
 $userGateway = new UserGateway($database);
 
-$auth = new Auth($userGateway);
+$auth = new Auth($userGateway, $codec);
 
 
 if ( ! $auth->authenticationAccessToken()){

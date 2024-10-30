@@ -5,7 +5,7 @@ class Auth {
 
     private int $user_id;
 
-    public function __construct(private UserGateway $userGateway){}
+    public function __construct(private UserGateway $userGateway, private JWTCodec $codec){}
 
     public function authenticateApiKey() : bool {
 
@@ -54,32 +54,19 @@ class Auth {
             return false;
         }
 
-        // Decode the Base64-encoded token from the Authorization header
-        $plain_text = base64_decode($matches[1], true);
+        try {
 
+            $payload = $this->codec->decode($matches[1]);
 
-        // Validate that the token was successfully decoded
-        if ($plain_text === false) {
-
-            http_response_code(400);
-            echo json_encode(["message" => "invalid authorization header"]);
-            return false;
-        }
-
-
-        // Attempt to parse the decoded token as JSON
-        $data = json_decode($plain_text, true);
-
-
-        // Check if the decoded token is valid JSON
-        if($data === null) {
+        }catch (Exception $e) {
 
             http_response_code(400);
-            echo json_encode(["message" => "invalid JSON"]);
+            echo json_encode(["message" => $e->getMessage()]);
             return false;
+
         }
 
-        $this->user_id = $data['id'];
+        $this->user_id = $payload['sub'];
 
         return true;
     }
