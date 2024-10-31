@@ -51,4 +51,4 @@ if ($user === false){
 
 }
 
-var_dump($user);
+require __DIR__ . "/tokens.php";
