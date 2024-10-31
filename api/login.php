@@ -58,7 +58,8 @@ if ( ! password_verify($data["password"], $user["password_hash"])) {
 // Create a payload array containing the user's ID and name for the token
 $payload = [
     "sub" => $user['id'],
-    "name" => $user['name']
+    "name" => $user['name'],
+    "exp" => time() + 100
 ];
 
 // creating an instance of the JWTCodec class
