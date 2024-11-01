@@ -14,6 +14,7 @@ class RefreshTokenGateway {
 
     public function create(string $token, int $expiry) {
 
+        // hash the refresh token with your secret key before storing to database
         $hash = hash_hmac("sha256", $token, $this->key);
 
         $sql = "INSERT INTO refresh_token (token_hash, expires_at) VALUES (:token_hash, :expires_at)";
@@ -26,5 +27,23 @@ class RefreshTokenGateway {
         return $stmt->execute();
 
     }
+
+    public function delete(string $token) : int {
+
+        // Hash the provided refresh token with the secret key to generate the hash
+        // that will be used to find and delete the matching token in the database
+        $hash = hash_hmac("sha256", $token, $this->key);
+    
+        $sql = "DELETE FROM refresh_token WHERE token_hash = :token_hash";
+    
+        $stmt = $this->conn->prepare($sql);
+    
+        $stmt->bindValue("token_hash", $hash, PDO::PARAM_STR);
+    
+        $stmt->execute();
+    
+        return $stmt->rowCount();
+    }
+    
 
 }
