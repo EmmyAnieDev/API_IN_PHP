@@ -4,7 +4,7 @@
 $payload = [
     "sub" => $user['id'],
     "name" => $user['name'],
-    "exp" => time() + 100
+    "exp" => time() + 600
 ];
 
 $refresh_token_expiry = time() + 432000;   // expiry here is much longer than access token expiry
