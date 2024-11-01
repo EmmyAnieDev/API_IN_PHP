@@ -7,10 +7,12 @@ $payload = [
     "exp" => time() + 100
 ];
 
+$refresh_token_expiry = time() + 432000;   // expiry here is much longer than access token expiry
+
 // We only need these two claims for the refresh token, unlike the access token, which can contain more user data.
 $refresh_token_payload = [
     "sub" => $user['id'],
-    "exp" => time() + 432000   // expiry here is much longer than access token expiry
+    "exp" => $refresh_token_expiry
 ];
 
 $access_token = $codec->encode($payload);
